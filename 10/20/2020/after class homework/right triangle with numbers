@@ -1,0 +1,24 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+
+  int row = 0;
+  int num;
+
+  cout << "Enter a number: ";
+  cin >> num;
+
+  while (row <= num) {
+    int counter = 0;
+
+    while (counter <= row) {
+      cout << counter;
+      counter++;
+    }
+
+    cout << endl;
+    row++;
+  }
+}
