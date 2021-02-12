@@ -1,1 +1,204 @@
+// Problem 1-1
 
+#include <iostream>
+
+int main() {
+  float T_design = 200;        // In degrees C, check the hardware specs
+  float T_ambient = 22.5;      // In degrees C - 20-25 is ~room temp
+  float T_element = T_ambient; // Starts same as ambient
+  float T_gain = 4.18;         // In degrees C per time
+  float C = 0.023;             // Units in... ??????
+  float T_loss = C * (T_element - T_ambient);
+  int time = 0; // In timeslices
+
+  bool exitFlag = false;
+  while (exitFlag == false) { // ExitFlag ! true
+    std::cout << T_element << std::endl;
+    time++;
+
+    // Bleed off heat for this round of simulation
+    T_element = T_element - T_loss;
+
+    // Adjust heat loss ofr next round
+    T_loss = C * (T_element - T_ambient);
+
+    // Gain heat for this round of simulation
+    T_element = T_element + T_gain;
+
+    // Check if simulation is over
+    if (T_element >= T_design) {
+      std::cout << "Set temperature reached at time (" << time << ")"
+                << std::endl;
+      exitFlag = !exitFlag;
+    }
+    if (time >= 500) {
+      std::cout << "Maximum test time (500) reached. Exiting." << std::endl;
+      exitFlag = !exitFlag;
+    }
+  }
+  return 0;
+}
+
+
+
+
+// Problem 1-2
+
+#include <iostream>
+
+int main() {
+  float T_design = 200;        // In degrees C, check the hardware specs
+  float T_ambient = 22.5;      // In degrees C - 20-25 is ~room temp
+  float T_element = T_ambient; // Starts same as ambient
+  float T_gain = 4.18;         // In degrees C per time
+  float C = 0.023;             // Units in... ??????
+  float temporary_C = C;
+  float T_loss = C * (T_element - T_ambient);
+  int time = 0; // In timeslices
+
+  bool exitFlag = false;
+  while (exitFlag == false) { // ExitFlag ! true
+    std::cout << T_element << std::endl;
+    time++;
+
+    // Bleed off heat for this round of simulation
+    T_element = T_element - T_loss;
+
+    // Adjust heat loss ofr next round
+    T_loss = C * (T_element - T_ambient);
+
+    // Gain heat for this round of simulation
+    T_element = T_element + T_gain;
+
+    // Is the fan on or off right now?
+    if( time % 60 < 5 ) {
+      C = C * 1.25;
+    }
+    else {
+      C = 0.023;
+    }
+
+    // Check if simulation is over
+    if (T_element >= T_design) {
+      std::cout << "Set temperature reached at time (" << time << ")"
+                << std::endl;
+      exitFlag = !exitFlag;
+    }
+    if (time >= 500) {
+      std::cout << "Maximum test time (500) reached. Exiting." << std::endl;
+      exitFlag = !exitFlag;
+    }
+  }
+  return 0;
+}
+
+
+
+
+// Problem 2-1
+
+#include <iostream>
+#include <sstream>
+
+int main() {
+  std::stringstream quack;
+  quack << "------/XMMMM::-------------------------------------:---/"
+           "XnMM!MMMMM:------------------------------------:/"
+           "X:MMnnM:MMMMMMn-----------------------------------:!!nn:X!"
+           "MMMMMMMMM-----------------------------------:-------!!!!MMMMMX-----"
+           "-----------------------------:-----------!nMMMM:-------------------"
+           "--------------:------------!MMMMX---------------------------------:"
+           "-------------nMMMMX:-------------------------------:--------------"
+           "MMMMMMX:::---------------------------:--------------MMMMMMMMMMMMMX:"
+           "X::-------------------:--------------MMMMMMMMMMMMMMMMMMM:::--------"
+           "-------:--------------MMMMMMnMMMMMMMMMMMMMMMX:::-------::n-:-------"
+           "-------MMMMMMXMMMMMMMMMMMMMnMMMMMMMnMMMMnM--:--------------"
+           "nMMMMMMnMMMMMMMMMMMMMMM:nnnXnnnXXn!--:--------------!"
+           "nMMMMMMMnMMMMnXMMnMX:MMMn!XnnMn!----:---------------!"
+           "nMMMMMMXMXXMMXnnMXXnnnnXMMn!!------:-----------------!"
+           "MMMMMMMMXMXnnnMMMMMMMMMM!--------:------------------!!"
+           "MMMMMMMMMMMMMMMMMMMMM!---------:---------------------!"
+           "nMMMMMMMMMMMMMMMM!!----------:-----------------------!!"
+           "nMMMMMMMMMMM!!------------:--------------------------!nMMMMMM!!!---"
+           "-----------:-----------------------------:---------------------:---"
+           "--------------------------n---------------------:------------------"
+           "----------nn---------------------:-----------------------/"
+           "::X:M!---------------------:----------------------/"
+           "XXMMn!----------------------:------------------------!!!-----------"
+           "-------------:";
+
+  int width = 52;
+  int height = 27;
+  char currPixel;
+
+  for (int row = 0; row < 27; row++) {
+    for (int col = 0; col < 52; col++) {
+      quack >> currPixel;
+      std::cout << currPixel;
+    }
+    std::cout << std::endl;
+  }
+}
+
+
+
+
+// Problem 2-2
+
+#include <iostream>
+#include <sstream>
+
+int main() {
+  std::stringstream quack;
+  quack << "------/XMMMM::-------------------------------------:---/XnMM!MMMMM:------------------------------------:/X:MMnnM:MMMMMMn-----------------------------------:!!nn:X!MMMMMMMMM-----------------------------------:-------!!!!MMMMMX----------------------------------:-----------!nMMMM:---------------------------------:------------!MMMMX---------------------------------:-------------nMMMMX:-------------------------------:--------------MMMMMMX:::---------------------------:--------------MMMMMMMMMMMMMX:X::-------------------:--------------MMMMMMMMMMMMMMMMMMM:::---------------:--------------MMMMMMnMMMMMMMMMMMMMMMX:::-------::n-:--------------MMMMMMXMMMMMMMMMMMMMnMMMMMMMnMMMMnM--:--------------nMMMMMMnMMMMMMMMMMMMMMM:nnnXnnnXXn!--:--------------!nMMMMMMMnMMMMnXMMnMX:MMMn!XnnMn!----:---------------!nMMMMMMXMXXMMXnnMXXnnnnXMMn!!------:-----------------!MMMMMMMMXMXnnnMMMMMMMMMM!--------:------------------!!MMMMMMMMMMMMMMMMMMMMM!---------:---------------------!nMMMMMMMMMMMMMMMM!!----------:-----------------------!!nMMMMMMMMMMM!!------------:--------------------------!nMMMMMM!!!--------------:-----------------------------:---------------------:-----------------------------n---------------------:----------------------------nn---------------------:-----------------------/::X:M!---------------------:----------------------/XXMMn!----------------------:------------------------!!!------------------------:";
+  int width = 52;
+  char currPixel;
+  char scanline[52];
+  // Take first line of pixals and put it in an array
+  for( int i = 0 ; i < 52 ; i++ ) {
+    quack >> currPixel;
+    scanline[ i ] = currPixel;
+  }
+  // Displau first line of pixels put into array
+  for( int i = 0 ; i < width ; i++ ) {
+    std::cout << scanline[i];
+  }
+  std::cout << std::endl;
+}
+
+
+
+
+// Problem 2-3
+
+#include <iostream>
+#include <sstream>
+
+int main() {
+  std::stringstream quack;
+  quack << "------/XMMMM::-------------------------------------:---/XnMM!MMMMM:------------------------------------:/X:MMnnM:MMMMMMn-----------------------------------:!!nn:X!MMMMMMMMM-----------------------------------:-------!!!!MMMMMX----------------------------------:-----------!nMMMM:---------------------------------:------------!MMMMX---------------------------------:-------------nMMMMX:-------------------------------:--------------MMMMMMX:::---------------------------:--------------MMMMMMMMMMMMMX:X::-------------------:--------------MMMMMMMMMMMMMMMMMMM:::---------------:--------------MMMMMMnMMMMMMMMMMMMMMMX:::-------::n-:--------------MMMMMMXMMMMMMMMMMMMMnMMMMMMMnMMMMnM--:--------------nMMMMMMnMMMMMMMMMMMMMMM:nnnXnnnXXn!--:--------------!nMMMMMMMnMMMMnXMMnMX:MMMn!XnnMn!----:---------------!nMMMMMMXMXXMMXnnMXXnnnnXMMn!!------:-----------------!MMMMMMMMXMXnnnMMMMMMMMMM!--------:------------------!!MMMMMMMMMMMMMMMMMMMMM!---------:---------------------!nMMMMMMMMMMMMMMMM!!----------:-----------------------!!nMMMMMMMMMMM!!------------:--------------------------!nMMMMMM!!!--------------:-----------------------------:---------------------:-----------------------------n---------------------:----------------------------nn---------------------:-----------------------/::X:M!---------------------:----------------------/XXMMn!----------------------:------------------------!!!------------------------:";
+
+  int width = 52;
+  int height = 27;
+
+  char currPixel;
+  char scanline[width][height];
+
+  // Load the scanline
+  for( int y = 0 ; y < height ; y++ ) {
+    for( int x = 0 ; x < width ; x++) {
+      quack >> currPixel;
+      scanline[x][y] = currPixel;
+    }
+  }
+
+  // Print the scanline
+  for( int x = 0 ; x < width ; x++ ) {
+    for( int y = height-1 ; y >= 0 ; y-- ) {
+      std::cout << scanline[x][y];
+
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+}
