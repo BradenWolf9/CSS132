@@ -1,1 +1,157 @@
+// Problem 1
 
+#include <iostream>
+#include <sstream>
+#include <string>
+using namespace std;
+int main() {
+  std::string band1;
+  std::string band2;
+  std::string band3;
+  std::string band4;
+
+  std::cin >> band1 >> band2 >> band3 >> band4;
+
+  std::stringstream result;
+
+  // Band 1 calculation
+  if (band1 == "RED") {
+    cout << "2";
+  } else if (band1 == "GREEN") {
+    cout << "5";
+  } else if (band1 == "BLUE") {
+    cout << "6";
+  } else {
+    std::cout << "Bad color code. Aborting...";
+    return -1;
+  }
+
+  // Band 2 calculation
+  if (band2 == "RED") {
+    cout << "2";
+  } else if (band2 == "GREEN") {
+    cout << "5";
+  } else if (band2 == "BLUE") {
+    cout << "6";
+  } else {
+    std::cout << "Bad color code. Aborting...";
+    return -1;
+  }
+  cout << " x ";
+  // Band 3 calculation
+  if (band3 == "RED") {
+    cout << "100";
+  } else if (band3 == "GREEN") {
+    cout << "100 000";
+  } else if (band3 == "BLUE") {
+    cout << "1 000 000";
+  } else {
+    std::cout << "Bad color code. Aborting...";
+    return -1;
+  }
+  cout << " +/- ";
+  // Band 4 calculation
+  if (band4 == "RED") {
+    cout << "2";
+  } else if (band4 == "GREEN") {
+    cout << "0.5";
+  } else if (band4 == "BLUE") {
+    cout << "0.25";
+  } else {
+    std::cout << "Bad color code. Aborting...";
+    return -1;
+  }
+  cout << "%";
+  // Report result
+  std::cout << result.str(); // Convert stringstream to string and send to cout
+  return 0;
+}
+
+
+
+
+// Problem 2
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+int main( ) {
+  std::cout << "Input (volts): ";
+  double voltage;
+  std::cin >> voltage;
+
+  double result;
+  std::string prefix;
+
+  if( voltage >= 1000.0 ) {
+    voltage = voltage / 1000;
+    prefix = "Kilo";
+  }
+  else if ( voltage > 0 && voltage <10 ) {
+    prefix = "";
+  }
+  else if ( voltage <= 0.001 ) {
+    voltage = voltage * 1000;
+    prefix = "Milli";
+  }
+  else {
+    cout << "You wrong!";
+  }
+  // Report results
+  std::cout << "Output       : ";
+  std::cout << voltage << " " << prefix << "volts";
+  return 0;
+}
+
+
+
+
+// Problem 3
+
+#include <iostream>
+#include <iomanip>
+#include <cassert>
+
+int main( ) {
+  // Collect and parse input 1 from user
+  std::cout << "Input 1: ";
+  int arg1;
+  std::string units1;
+  std::cin >> arg1 >> units1;
+
+  // Collect and parse input 2 from user
+  std::cout << "Input 2: ";
+  int arg2;
+  std::string units2;
+  std::cin >> arg2 >> units2;
+
+  // User inputs collected
+
+  float solution = 0.0;
+  std::string missingUnits;
+  if (units1 == "watts" && units2 == "volts"){
+    missingUnits = "amps";
+  }
+  else if (units1 == "volts" && units2 == "amps") {
+    missingUnits = "watts";
+  }
+  else {
+    missingUnits = "volts";
+  }
+
+  // TODO: Add branch logic
+  if(missingUnits == "amps" ) {
+    solution = arg1 / arg2;
+  }
+  else if(missingUnits == "watts" ) {
+    solution = arg1 * arg2;
+  }
+  else {
+    solution = arg1 / arg2;
+  }
+
+  std::cout << "Missing term: " << std::fixed << std::setprecision(1) << solution << " " << missingUnits;
+  return 0;
+}
