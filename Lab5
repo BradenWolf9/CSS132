@@ -1,1 +1,140 @@
+// Problem 1-1
 
+#include <iostream>
+#include <vector>
+
+int main() {
+  double lossPerSegment = 0.000253146;
+  double percentLossPerSegment = lossPerSegment * 100;
+  double TLine[150];
+  TLine[0] = 100.0;
+  for( int i = 1 ; i < 151 ; i++ ) {
+    TLine[i] = TLine[i-1] * ( 1.0 - lossPerSegment );
+  }
+
+  std::cerr << "Assuming " << percentLossPerSegment << "% loss per 10 km" << std:: endl;
+  std::cerr << "Distance : Power remaining at" << std::endl;
+  for( int i = 0 ; i < 151 ; i+=10 ) {
+    int distance = i*10;
+    std::cout.width(5);
+    std::cout << std::right << distance << " km : " << TLine[i] << std::endl;
+  }
+
+  return 0;
+}
+
+
+
+// Problem 1-2
+
+#include <iostream>
+#include <vector>
+
+int main() {
+  double lossPerSegment = 0.000253146;
+  double TLine[151];
+  TLine[0] = 100.0;
+  for( int i = 1 ; i < 151 ; i++ ) {
+    TLine[i] = TLine[i-1] * ( 1.0 - lossPerSegment );
+  }
+
+  int USDperPercent = (int) 186480; // $ per %
+  std::vector<int> revenue;
+  for( int i = 0 ; i < 151 ; i++ ) {
+    double lossPercent = 100.0 - TLine[i];
+    int    loss        = USDperPercent * lossPercent;
+    revenue.push_back( loss );
+  }
+
+  std::cerr << "Assuming $" << USDperPercent << " lost/percent" << std:: endl;
+  std::cerr << "Distance : Revenue Loss" << std::endl;
+  for( int i = 0 ; i < 151 ; i+=10 ) {
+    int distance = i*10;
+    std::cout.width(5);
+    std::cout << std::right << distance << " km : " << revenue.at( i) << std::endl;
+  }
+
+  return 0;
+}
+
+
+
+
+// Problem 2
+
+#include <cmath>   // For exponentiation
+#include <iomanip> // For width formatting
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#define WIDTH 9
+
+void printTable(std::vector<std::vector<float>> hzTable);
+
+int main() {
+
+  // Declare a 2-D float vector (a vector of vector<float>s)
+  std::vector<std::vector<float>> hzTable;
+
+  // For each row needed in the table...
+  for (int row = 0; row < 8; row++) {
+
+    // Note the number of generator poles for this row
+    int poles = 2 * (pow(2, row));
+
+    // Declare a vector for this row and attach it to the table
+    std::vector<float> aRow;
+    hzTable.push_back(aRow);
+
+    // For every column in this row...
+    for (int col = 0; col < 7; col++) {
+
+      // Note the RPM for this column
+      int rpm = (20 * col);
+      // And calculate the hertz generated
+      float calcedHZ = (rpm * poles) / 120.0;
+      // Then push it to the back of this row's vector<float>
+      hzTable.at(row).push_back(calcedHZ);
+
+    } // Closing for - All cells in this row populated
+
+  } // Closing for - All rows in this table populated
+
+  // Print the title and column labels
+  printTable(hzTable);
+
+  return 0;
+}
+
+// (+) --------------------------------|
+// #printTable( )
+// ------------------------------------|
+// Description   : Prints the contents of a table
+// Parameters    : vector<vector<float>> arg1 - The table to print
+// PreConditions : None
+// PostConditions: None
+// ReturnValue   : None
+void printTable(std::vector<std::vector<float>> hzTable) {
+  std::cout << "AC FREQUENCY OF DIRECT DRIVE WIND TURBINE" << std::endl;
+  std::cout << std::endl;
+  std::cout << "       R - ROTATIONAL RATE (RPM)" << std::endl;
+  std::cout << " ";
+  for (int hz = 0; hz <= 120; hz = hz + 20) {
+    std::cout << std::setw(WIDTH) << hz;
+  }
+  std::cout << std::endl;
+
+  std::string poleLabel = "P|POLES ";
+  for (int row = 0; row < 8; row++) {
+    int poles = pow(2, (row + 1));
+    std::cout << std::setw(1) << poleLabel.at(row) << std::setw(4) << poles;
+    for (int col = 0; col < 7; col++) {
+      int hz = col * 20;
+      std::cout << std::fixed << std::setprecision(3) << std::setw(WIDTH);
+      std::cout << hzTable[row][col];
+    }
+    std::cout << std::endl;
+  }
+}
